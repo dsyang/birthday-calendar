@@ -185,6 +185,7 @@
               <a href="https://www.facebook.com/<%= friend.id %>" target="_top">
                 <img src="https://graph.facebook.com/<%= friend.id %>/picture?type=square" alt="<%= friend.name %>">
                 <%= friend.name %>
+                <%= friend.birthday %>
               </a>
             </li>
           <% }); %>
@@ -263,4 +264,3 @@
     </section>
   </body>
 </html>
-

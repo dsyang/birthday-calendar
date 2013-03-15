@@ -9,11 +9,12 @@ var app = express.createServer(
   express.bodyParser(),
   express.cookieParser(),
   // set this to a secret value to encrypt session cookies
-  express.session({ secret: process.env.SESSION_SECRET || 'secret123' }),
+  express.session({ secret: process.env.SESSION_SECRET ||
+                            'mochis-secret-grapsauce' }),
   require('faceplate').middleware({
     app_id: process.env.FACEBOOK_APP_ID,
     secret: process.env.FACEBOOK_SECRET,
-    scope:  'user_likes,user_photos,user_photo_video_tags'
+    scope:  'user_likes,user_photos,user_photo_video_tags,user_birthday,friends_birthday'
   })
 );
 
@@ -64,7 +65,8 @@ function handle_facebook_request(req, res) {
     async.parallel([
       function(cb) {
         // query 4 friends and send them to the socket for this socket id
-        req.facebook.get('/me/friends', { limit: 4 }, function(friends) {
+        req.facebook.get('/me/friends?fields=birthday,name',
+                         { limit: 4 }, function(friends) {
           req.friends = friends;
           cb();
         });
